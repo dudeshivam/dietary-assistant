@@ -1,0 +1,531 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --font-display: "Space Grotesk";
+    --font-body: "DM Sans";
+    --font-mono: "Geist Mono";
+    --radius: 0.625rem;
+
+    --background: 0.98 0.005 260;
+    --foreground: 0.18 0.015 260;
+    --card: 1.0 0.0 0;
+    --card-foreground: 0.18 0.015 260;
+    --popover: 1.0 0.0 0;
+    --popover-foreground: 0.18 0.015 260;
+
+    --primary: 0.55 0.22 280;
+    --primary-foreground: 0.98 0.005 280;
+
+    --secondary: 0.95 0.01 260;
+    --secondary-foreground: 0.28 0.015 260;
+    --muted: 0.92 0.01 260;
+    --muted-foreground: 0.48 0.01 260;
+
+    --accent: 0.62 0.25 270;
+    --accent-foreground: 0.98 0.005 270;
+
+    --destructive: 0.55 0.22 25;
+    --destructive-foreground: 0.98 0.005 25;
+
+    --border: 0.88 0.01 260;
+    --input: 0.88 0.01 260;
+    --ring: 0.55 0.22 280;
+
+    --chart-1: 0.65 0.25 280;
+    --chart-2: 0.62 0.22 260;
+    --chart-3: 0.58 0.2 270;
+    --chart-4: 0.72 0.18 290;
+    --chart-5: 0.68 0.2 285;
+
+    --sidebar: 0.98 0.005 260;
+    --sidebar-foreground: 0.18 0.015 260;
+    --sidebar-primary: 0.55 0.22 280;
+    --sidebar-primary-foreground: 0.98 0.005 280;
+    --sidebar-accent: 0.92 0.01 260;
+    --sidebar-accent-foreground: 0.28 0.015 260;
+    --sidebar-border: 0.88 0.01 260;
+    --sidebar-ring: 0.55 0.22 280;
+
+    --success: 0.65 0.18 142;
+    --success-foreground: 0.98 0.005 142;
+    --warning: 0.72 0.2 70;
+    --warning-foreground: 0.98 0.005 70;
+  }
+
+  .dark {
+    --background: 0.14 0.015 260;
+    --foreground: 0.95 0.01 260;
+    --card: 0.19 0.015 260;
+    --card-foreground: 0.95 0.01 260;
+    --popover: 0.22 0.015 260;
+    --popover-foreground: 0.95 0.01 260;
+
+    --primary: 0.68 0.22 280;
+    --primary-foreground: 0.14 0.015 280;
+
+    --secondary: 0.22 0.015 260;
+    --secondary-foreground: 0.85 0.01 260;
+    --muted: 0.22 0.015 260;
+    --muted-foreground: 0.55 0.01 260;
+
+    --accent: 0.72 0.25 270;
+    --accent-foreground: 0.14 0.015 270;
+
+    --destructive: 0.65 0.19 22;
+    --destructive-foreground: 0.95 0.01 22;
+
+    --border: 0.28 0.015 260;
+    --input: 0.28 0.015 260;
+    --ring: 0.68 0.22 280;
+
+    --chart-1: 0.68 0.25 280;
+    --chart-2: 0.65 0.22 260;
+    --chart-3: 0.62 0.2 270;
+    --chart-4: 0.75 0.18 290;
+    --chart-5: 0.72 0.2 285;
+
+    --sidebar: 0.19 0.015 260;
+    --sidebar-foreground: 0.95 0.01 260;
+    --sidebar-primary: 0.68 0.22 280;
+    --sidebar-primary-foreground: 0.14 0.015 280;
+    --sidebar-accent: 0.22 0.015 260;
+    --sidebar-accent-foreground: 0.85 0.01 260;
+    --sidebar-border: 0.28 0.015 260;
+    --sidebar-ring: 0.68 0.22 280;
+
+    --success: 0.65 0.18 142;
+    --success-foreground: 0.95 0.01 142;
+    --warning: 0.72 0.2 70;
+    --warning-foreground: 0.14 0.015 70;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground font-body antialiased;
+  }
+}
+
+@font-face {
+  font-family: "Space Grotesk";
+  src: url("/assets/fonts/SpaceGrotesk.woff2") format("woff2");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "DM Sans";
+  src: url("/assets/fonts/DMSans.woff2") format("woff2");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Geist Mono";
+  src: url("/assets/fonts/GeistMono.woff2") format("woff2");
+  font-display: swap;
+}
+
+@layer utilities {
+  .transition-smooth {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .gradient-primary {
+    background: linear-gradient(
+      135deg,
+      oklch(var(--primary)),
+      oklch(var(--accent))
+    );
+  }
+
+  .gradient-subtle {
+    background: linear-gradient(
+      135deg,
+      oklch(var(--primary) / 0.1),
+      oklch(var(--accent) / 0.1)
+    );
+  }
+
+  .gradient-hero {
+    background: linear-gradient(
+      135deg,
+      oklch(0.12 0.03 280),
+      oklch(0.16 0.04 260),
+      oklch(0.14 0.05 240)
+    );
+  }
+
+  .gradient-border {
+    background: linear-gradient(oklch(var(--card)), oklch(var(--card)))
+      padding-box,
+      linear-gradient(135deg, oklch(var(--primary)), oklch(var(--accent)))
+      border-box;
+    border: 2px solid transparent;
+  }
+
+  .text-gradient {
+    background: linear-gradient(
+      135deg,
+      oklch(var(--primary)),
+      oklch(var(--accent))
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .fade-in {
+    animation: fadeIn 0.6s ease-out forwards;
+  }
+
+  .slide-up {
+    animation: slideUp 0.6s ease-out forwards;
+  }
+
+  .animate-node-complete {
+    animation: node-complete 0.6s ease-out forwards;
+  }
+
+  .animate-on-scroll {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+
+  .animate-on-scroll.in-view {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-8px);
+    }
+  }
+
+  @keyframes pulse-glow {
+    0%,
+    100% {
+      opacity: 1;
+      box-shadow: 0 0 24px 0 oklch(0.55 0.22 280 / 0.3);
+    }
+    50% {
+      opacity: 0.85;
+      box-shadow: 0 0 40px 0 oklch(0.55 0.22 280 / 0.5);
+    }
+  }
+
+  @keyframes node-complete {
+    0% {
+      transform: scale(0.8);
+      opacity: 0;
+    }
+    50% {
+      transform: scale(1.15);
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  @keyframes xp-float {
+    0% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(-40px);
+    }
+  }
+
+  @keyframes progress-fill {
+    from {
+      width: var(--prev-width, 0%);
+    }
+    to {
+      width: var(--curr-width, 0%);
+    }
+  }
+
+  @keyframes streak-bounce {
+    0%,
+    100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.1);
+    }
+  }
+
+  .form-input {
+    @apply rounded-lg px-4 py-3 w-full focus:outline-none transition-smooth;
+    background: oklch(0.97 0.005 260);
+    border: 1.5px solid oklch(0.78 0.02 260);
+    color: oklch(0.15 0.015 260);
+    font-size: 0.9375rem;
+  }
+  .form-input::placeholder {
+    color: oklch(0.58 0.01 260);
+  }
+  .form-input:focus {
+    background: oklch(1 0 0);
+    border-color: oklch(0.68 0.22 280);
+    box-shadow: 0 0 0 3px oklch(0.68 0.22 280 / 0.3), 0 0 16px
+      oklch(0.68 0.22 280 / 0.12);
+  }
+  .form-input option {
+    background: oklch(0.97 0.005 260);
+    color: oklch(0.15 0.015 260);
+  }
+
+  /* Auth-specific input: light background, visible border, purple focus glow */
+  .auth-input {
+    @apply rounded-lg px-4 py-3 w-full focus:outline-none transition-smooth;
+    background: oklch(0.97 0.005 260);
+    border: 1.5px solid oklch(0.82 0.015 260);
+    color: oklch(0.18 0.015 260);
+    font-size: 0.9375rem;
+  }
+  .auth-input::placeholder {
+    color: oklch(0.62 0.01 260);
+  }
+  .auth-input:focus {
+    background: oklch(1 0 0);
+    border-color: oklch(0.68 0.22 280);
+    box-shadow: 0 0 0 3px oklch(0.68 0.22 280 / 0.3), 0 0 16px
+      oklch(0.68 0.22 280 / 0.12);
+  }
+  .auth-input option {
+    background: oklch(0.97 0.005 260);
+    color: oklch(0.18 0.015 260);
+  }
+
+  .form-card {
+    @apply backdrop-blur-sm rounded-xl p-8 md:p-10 max-w-md w-full relative overflow-hidden;
+    background: oklch(0.19 0.015 260 / 0.92);
+    border: 2px solid oklch(0.55 0.22 280 / 0.25);
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4), 0 0 40px
+      oklch(0.55 0.22 280 / 0.08);
+  }
+
+  .form-container {
+    @apply min-h-screen flex items-center justify-center px-4 py-8;
+    background: linear-gradient(
+      135deg,
+      oklch(0.12 0.03 280),
+      oklch(0.16 0.04 260),
+      oklch(0.14 0.05 240)
+    );
+  }
+
+  .form-group {
+    @apply mb-6;
+  }
+
+  .form-label {
+    @apply text-sm font-semibold text-foreground tracking-wider uppercase mb-2 block;
+  }
+
+  .form-link {
+    @apply text-sm text-accent hover:text-accent/80 transition-smooth;
+  }
+
+  .button-primary {
+    @apply bg-gradient-primary text-primary-foreground px-6 py-3 rounded-lg font-semibold hover:scale-105 transition-smooth shadow-elevated hover:shadow-glow-lg w-full;
+  }
+
+  .button-secondary {
+    @apply border-2 border-primary text-primary px-6 py-3 rounded-lg font-semibold hover:bg-primary hover:text-primary-foreground transition-smooth;
+  }
+
+  .card-elevated {
+    @apply bg-card border border-border rounded-lg p-6 shadow-elevated;
+  }
+
+  .stat-card {
+    @apply bg-card border border-border rounded-lg p-6 shadow-subtle hover:shadow-elevated transition-smooth;
+  }
+
+  .dashboard-grid {
+    @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6;
+  }
+
+  .journey-header {
+    @apply text-center mb-8;
+  }
+
+  .journey-title {
+    @apply font-display text-3xl md:text-4xl font-bold text-foreground mb-2;
+  }
+
+  .journey-subtitle {
+    @apply text-sm md:text-base text-muted-foreground;
+  }
+
+  .journey-stats {
+    @apply flex flex-wrap justify-center gap-4 md:gap-6 mb-8;
+  }
+
+  .stat-badge {
+    @apply inline-flex items-center gap-2 px-4 py-2 rounded-full bg-card border border-border text-foreground text-sm font-semibold;
+  }
+
+  .stat-value {
+    @apply text-lg md:text-xl font-bold text-primary;
+  }
+
+  .progress-wrapper {
+    @apply mb-8;
+  }
+
+  .progress-label {
+    @apply text-xs md:text-sm font-semibold uppercase text-muted-foreground mb-3 tracking-wide;
+  }
+
+  .progress-bar {
+    @apply w-full h-3 md:h-4 bg-muted rounded-full overflow-hidden border border-border;
+  }
+
+  .progress-fill {
+    @apply h-full transition-all duration-500 ease-out;
+    background: linear-gradient(
+      90deg,
+      oklch(var(--primary)),
+      oklch(var(--accent))
+    );
+  }
+
+  .journey-path {
+    @apply relative flex flex-col items-center gap-0;
+  }
+
+  .path-connector {
+    @apply w-1 h-12 md:h-16 bg-gradient-to-b from-primary/30 to-accent/30;
+  }
+
+  .path-connector.completed {
+    @apply bg-gradient-to-b from-success to-success/50;
+  }
+
+  .node-base {
+    @apply relative flex flex-col items-center gap-4 px-4 py-6 md:px-6 md:py-8 transition-all duration-300 ease-out;
+  }
+
+  .node-circle {
+    @apply w-16 h-16 md:w-20 md:h-20 rounded-full flex items-center justify-center text-2xl md:text-3xl border-2 transition-all duration-300;
+  }
+
+  .node-locked .node-circle {
+    @apply bg-muted border-muted-foreground/30 text-muted-foreground/50 opacity-60;
+  }
+
+  .node-active .node-circle {
+    @apply bg-primary/10 border-primary text-primary animate-pulse-glow;
+    animation: pulse-glow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  .node-completed .node-circle {
+    @apply bg-success/20 border-success text-success;
+  }
+
+  .node-labels {
+    @apply text-center;
+  }
+
+  .node-title {
+    @apply font-semibold text-foreground text-sm md:text-base;
+  }
+
+  .node-time {
+    @apply text-xs md:text-sm text-muted-foreground;
+  }
+
+  .node-locked .node-title,
+  .node-locked .node-time {
+    @apply opacity-50;
+  }
+
+  .node-active .node-title {
+    @apply text-primary font-bold;
+  }
+
+  .node-completed .node-title {
+    @apply text-success;
+  }
+
+  .xp-popup {
+    @apply fixed pointer-events-none font-bold text-success text-sm md:text-base;
+    animation: xp-float 1s ease-out forwards;
+  }
+
+  .streak-badge {
+    @apply inline-flex items-center gap-2 px-3 md:px-4 py-2 rounded-full bg-warning/10 border border-warning text-warning font-bold text-xs md:text-sm;
+  }
+
+  .streak-badge.active {
+    animation: streak-bounce 0.5s ease-out;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animate-on-scroll {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+    .fade-in,
+    .slide-up,
+    .slide-down {
+      animation: none;
+    }
+    .progress-fill,
+    .node-active .node-circle,
+    .streak-badge.active {
+      animation: none;
+    }
+  }
+}

@@ -1,0 +1,450 @@
+type WeeklyBalanceReport = 
+ record {
+   daily_summaries: vec DailyBalanceSummary;
+   total_deduction_events: nat;
+   total_reward_events: nat;
+   week_net_change: float64;
+ };
+type WebhookPayload = 
+ record {
+   amount: nat;
+   order_id: text;
+   payment_id: text;
+   status: PaymentStatus;
+   user_id: principal;
+ };
+type VerifyPaymentRequest = 
+ record {
+   order_id: text;
+   payment_id: text;
+   razorpay_signature: text;
+ };
+type UserPublic = 
+ record {
+   activity_level: ActivityLevel;
+   age: nat;
+   balance: float64;
+   created_at: Timestamp;
+   diet_type: DietType;
+   dietary_preference: DietaryPreference;
+   email: text;
+   goal: opt Goal;
+   height: opt float64;
+   id: principal;
+   lifestyle_description: opt text;
+   name: text;
+   plan_status: PlanStatus;
+   subscription_plan: SubscriptionPlan;
+   trial_start_date: opt Timestamp;
+   weight: opt float64;
+ };
+type UserFeedback = 
+ record {
+   created_at: int;
+   date: text;
+   energy_level: EnergyLevel;
+   feedback_text: text;
+   health_status: text;
+   id: nat;
+   notes: text;
+   user_id: principal;
+ };
+type UserActivity = 
+ record {
+   daily_calories: opt nat;
+   date: Timestamp;
+   meals_completed: opt nat;
+   meals_skipped: opt nat;
+   missed_meals: opt vec MissedMealEntry;
+   protein_intake: opt float64;
+   total_protein: opt float64;
+   user_id: principal;
+   water_intake: opt float64;
+ };
+type UpdateUserRequest = 
+ record {
+   activity_level: opt ActivityLevel;
+   age: opt nat;
+   balance: opt float64;
+   diet_type: opt DietType;
+   dietary_preference: opt DietaryPreference;
+   email: opt text;
+   goal: opt Goal;
+   height: opt float64;
+   lifestyle_description: opt text;
+   name: opt text;
+   plan_status: opt PlanStatus;
+   weight: opt float64;
+ };
+type TransactionType = 
+ variant {
+   deduction;
+   recharge;
+   reward;
+ };
+type Timestamp = int;
+type SubscriptionPlan = 
+ variant {
+   free;
+   premium;
+ };
+type StreakLeaderboard = 
+ record {
+   current_user_entry: opt LeaderboardEntry;
+   top_entries: vec LeaderboardEntry;
+ };
+type RegisterUserRequest = 
+ record {
+   activity_level: ActivityLevel;
+   age: nat;
+   diet_type: opt DietType;
+   dietary_preference: DietaryPreference;
+   email: text;
+   goal: opt Goal;
+   height: opt float64;
+   lifestyle_description: opt text;
+   name: text;
+   password: text;
+   weight: opt float64;
+ };
+type PlanStatus = 
+ variant {
+   free;
+   premium;
+   trial;
+ };
+type PaymentStatus = 
+ variant {
+   failed;
+   pending;
+   refunded;
+   success;
+ };
+type Payment = 
+ record {
+   amount: nat;
+   date: Timestamp;
+   order_id: text;
+   payment_id: text;
+   plan: opt SubscriptionPlan;
+   status: PaymentStatus;
+   user_id: principal;
+ };
+type MissedMealEntry = 
+ record {
+   meal_type: text;
+   reason: text;
+ };
+type LeaderboardEntry = 
+ record {
+   display_name: text;
+   is_current_user: bool;
+   rank: nat;
+   streak_days: nat;
+   weekly_xp: nat;
+ };
+type JourneyTaskType = 
+ variant {
+   meal;
+   water;
+ };
+type JourneyTask = 
+ record {
+   calories: nat;
+   description: text;
+   food_items: vec text;
+   id: nat;
+   name: text;
+   protein: nat;
+   quantity: text;
+   task_type: JourneyTaskType;
+   time: text;
+   time_label: text;
+   title: text;
+   xp_reward: nat;
+ };
+type JourneyProgress = 
+ record {
+   completed_task_ids: vec nat;
+   date: Timestamp;
+   earned_xp: nat;
+   streak_days: nat;
+ };
+type JourneyCompletionRequest = 
+ record {
+   date: Timestamp;
+   task_id: nat;
+ };
+type Goal = 
+ variant {
+   fat_loss;
+   lifestyle_balance;
+   muscle_gain;
+ };
+type GeneratePlanResult = 
+ variant {
+   error: text;
+   ok: DailyJourney;
+   tierLimited: text;
+ };
+type FeedbackResult = 
+ variant {
+   alreadySubmitted: UserFeedback;
+   error: text;
+   ok: UserFeedback;
+ };
+type EnergyLevel = 
+ variant {
+   high;
+   low;
+   medium;
+ };
+type EditableMeal = 
+ record {
+   calories: nat;
+   food_items: vec text;
+   id: nat;
+   name: text;
+   protein: nat;
+   quantity: text;
+   task_type: JourneyTaskType;
+   time: text;
+ };
+type EditMealRequest = 
+ record {
+   food_items: vec text;
+   quantity: text;
+   task_id: text;
+ };
+type EditMealPlanRequest = record {meals: vec EditableMeal;};
+type DietaryPreference = 
+ variant {
+   non_vegetarian;
+   vegetarian;
+ };
+type DietType = 
+ variant {
+   non_veg;
+   veg;
+ };
+type DailyJourney = 
+ record {
+   date: Timestamp;
+   generated_by_ai: bool;
+   id: text;
+   tasks: vec JourneyTask;
+   total_xp: nat;
+ };
+type DailyBalanceSummary = 
+ record {
+   balance_end: float64;
+   date: text;
+   deductions_total: float64;
+   rewards_total: float64;
+ };
+type CreateOrderResponse = 
+ record {
+   amount: nat;
+   currency: text;
+   order_id: text;
+ };
+type ChatResult = 
+ variant {
+   error: text;
+   ok: ChatResponse;
+   tierLimited: text;
+ };
+type ChatResponse = 
+ record {
+   ai_message: text;
+   is_health_response: bool;
+ };
+type ChatRequest = record {user_message: text;};
+type BalanceTransaction = 
+ record {
+   amount: float64;
+   balance_after: float64;
+   date: Timestamp;
+   id: text;
+   reason: text;
+   transaction_type: TransactionType;
+   user_id: principal;
+ };
+type AuthResponse = 
+ record {
+   session_token: text;
+   user_id: principal;
+ };
+type AdminStats = 
+ record {
+   active_users: nat;
+   premium_users: nat;
+   total_users: nat;
+   total_waitlist: nat;
+ };
+type AddFeedbackRequest = 
+ record {
+   date: text;
+   energy_level: EnergyLevel;
+   feedback_text: text;
+   health_status: text;
+   notes: text;
+ };
+type ActivityLevel = 
+ variant {
+   intense;
+   light;
+   moderate;
+   sedentary;
+ };
+service : {
+  addFeedback: (sessionToken: text, req: AddFeedbackRequest) ->
+   (FeedbackResult);
+  chatWithAI: (sessionToken: text, req: ChatRequest) -> (ChatResult);
+  completeJourneyTask: (sessionToken: text, req: JourneyCompletionRequest) ->
+   (variant {
+      err: text;
+      ok: JourneyProgress;
+    });
+  createRazorpayOrder: (sessionToken: text) ->
+   (variant {
+      err: text;
+      ok: CreateOrderResponse;
+    });
+  editAIMeal: (sessionToken: text, req: EditMealRequest) ->
+   (variant {
+      err: text;
+      ok: DailyJourney;
+    });
+  editMealPlan: (sessionToken: text, req: EditMealPlanRequest) ->
+   (variant {
+      err: text;
+      ok: DailyJourney;
+    });
+  generateAIDiet: (sessionToken: text) -> (GeneratePlanResult);
+  generateTodayPlan: (sessionToken: text) ->
+   (variant {
+      err: text;
+      ok: DailyJourney;
+    });
+  getAdminStats: () -> (AdminStats) query;
+  getFeedbackHistory: (sessionToken: text, days: nat) ->
+   (vec UserFeedback) query;
+  getMyActivity: (sessionToken: text) ->
+   (variant {
+      err: text;
+      ok: vec UserActivity;
+    }) query;
+  getMyBalance: (sessionToken: text) ->
+   (variant {
+      err: text;
+      ok: float64;
+    }) query;
+  getMyBalanceHistory: (sessionToken: text) ->
+   (variant {
+      err: text;
+      ok: vec BalanceTransaction;
+    }) query;
+  getMyLatestActivity: (sessionToken: text) ->
+   (variant {
+      err: text;
+      ok: opt UserActivity;
+    }) query;
+  getMyPayments: (sessionToken: text) ->
+   (variant {
+      err: text;
+      ok: vec Payment;
+    }) query;
+  getMyProfile: (sessionToken: text) -> (variant {
+                                           err: text;
+                                           ok: UserPublic;
+                                         });
+  getStreakLeaderboard: (sessionToken: text, limit: nat) ->
+   (variant {
+      err: text;
+      ok: StreakLeaderboard;
+    }) query;
+  getTodayFeedback: (sessionToken: text) -> (opt UserFeedback) query;
+  getTodayJourney: (sessionToken: text) ->
+   (variant {
+      err: text;
+      ok: DailyJourney;
+    });
+  getTodayProgress: (sessionToken: text) ->
+   (variant {
+      err: text;
+      ok: JourneyProgress;
+    }) query;
+  getWaitlistCount: () -> (nat) query;
+  getWeeklyBalanceReport: (sessionToken: text) ->
+   (variant {
+      err: text;
+      ok: WeeklyBalanceReport;
+    }) query;
+  handlePaymentWebhook: (payload: WebhookPayload) -> (bool);
+  joinWaitlist: (email: text) -> (variant {
+                                    alreadyExists;
+                                    ok;
+                                  });
+  logDailyActivity: (sessionToken: text, entry: UserActivity) ->
+   (variant {
+      err: text;
+      ok;
+    });
+  logMissedMeal: (sessionToken: text, mealType: text, reason: text) ->
+   (variant {
+      err: text;
+      ok: text;
+    });
+  loginUser: (email: text, password: text) ->
+   (variant {
+      err: text;
+      ok: AuthResponse;
+    });
+  logoutUser: (sessionToken: text) -> ();
+  processDayEndAccountability: (sessionToken: text, mealsCompleted: nat,
+   mealsSkipped: nat, waterCompleted: bool, skippedWithReason: bool) ->
+   (variant {
+      err: text;
+      ok: float64;
+    });
+  rechargeBalance: (sessionToken: text, amountPaise: nat) ->
+   (variant {
+      err: text;
+      ok: CreateOrderResponse;
+    });
+  registerUser: (req: RegisterUserRequest) ->
+   (variant {
+      err: text;
+      ok: AuthResponse;
+    });
+  resetToAIPlan: (sessionToken: text) ->
+   (variant {
+      err: text;
+      ok: DailyJourney;
+    });
+  skipJourneyTask: (sessionToken: text, taskId: nat, reason: text) ->
+   (variant {
+      err: text;
+      ok: record {
+            balance: float64;
+            balance_empty: bool;
+            deducted: bool;
+          };
+    });
+  updateMyProfile: (sessionToken: text, req: UpdateUserRequest) ->
+   (variant {
+      err: text;
+      ok: UserPublic;
+    });
+  verifyRazorpayPayment: (sessionToken: text, req: VerifyPaymentRequest) ->
+   (variant {
+      err: text;
+      ok: bool;
+    });
+  verifyRechargePayment: (sessionToken: text, req: VerifyPaymentRequest,
+   amountPaise: nat) -> (variant {
+                           err: text;
+                           ok: float64;
+                         });
+}

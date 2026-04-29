@@ -1,0 +1,27 @@
+{
+  "overview": "Dietary Assistant is a production-ready AI-powered SaaS diet coaching app with full safety and legal compliance features, including medical disclaimers, AI safety guardrails, payment transparency, data protection controls, and DPDP Act 2023 compliance.",
+  "features": [
+    "Medical disclaimers on signup, chat, and footer",
+    "AI safety guardrails (no medical advice, no cure/guarantee language)",
+    "Payment transparency with refund policy and support email",
+    "Delete Account option with confirmation modal",
+    "User consent checkbox required before signup",
+    "Tagline: AI-assisted personalized diet guidance",
+    "Gemini API key secured backend-only",
+    "Gamified daily diet tracking journey",
+    "AI-generated personalized meal plans",
+    "Razorpay subscription payments"
+  ],
+  "category": "health-fitness",
+  "tags": [
+    "diet",
+    "nutrition",
+    "ai",
+    "health",
+    "fitness",
+    "subscription",
+    "safety",
+    "compliance"
+  ],
+  "last_updated": "2026-04-24T05:29:09.834Z"
+}

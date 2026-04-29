@@ -1,0 +1,187 @@
+// Version: 1.0.0
+type ActivityLevel__893101734 = {#intense; #light; #moderate; #sedentary};
+type BalanceTransaction__767540482 =
+  {
+    amount : Float;
+    balance_after : Float;
+    date : Timestamp__301639476;
+    id : Text;
+    reason : Text;
+    transaction_type : TransactionType__574348530;
+    user_id : Principal
+  };
+type Credential__712013070 = {password_hash : Text; user_id : Principal};
+type DailyJourney__913751691 =
+  {
+    date : Timestamp__301639476;
+    generated_by_ai : Bool;
+    id : Text;
+    tasks : [JourneyTask__100356100];
+    total_xp : Nat
+  };
+type DailyRateLimit__437865141 =
+  {chat_count : Nat; day_bucket : Int; plan_count : Nat};
+type Data__791452850<K, V> =
+  {var count : Nat__490723111; kvs : [var ?(K, V)]};
+type DietType__908717894 = {#non_veg; #veg};
+type DietaryPreference__165841172 = {#non_vegetarian; #vegetarian};
+type EnergyLevel__746749156 = {#high; #low; #medium};
+type Goal__641104970 = {#fat_loss; #lifestyle_balance; #muscle_gain};
+type Internal__8484328<K, V> =
+  {children : [var ?Node__46230540<K, V>]; data : Data__791452850<K, V>};
+type JourneyProgress__161132083 =
+  {
+    completed_task_ids : [Nat];
+    date : Timestamp__301639476;
+    earned_xp : Nat;
+    streak_days : Nat
+  };
+type JourneyTaskType__861430702 = {#meal; #water};
+type JourneyTask__100356100 =
+  {
+    calories : Nat;
+    description : Text;
+    food_items : [Text];
+    id : Nat;
+    name : Text;
+    protein : Nat;
+    quantity : Text;
+    task_type : JourneyTaskType__861430702;
+    time : Text;
+    time_label : Text;
+    title : Text;
+    xp_reward : Nat
+  };
+type Leaf__809889148<K, V> = {data : Data__791452850<K, V>};
+type MissedMealEntry__963936557 = {meal_type : Text; reason : Text};
+type Nat__490723111 = Nat__920180692;
+type Nat__920180692 = Nat;
+type Node__46230540<K, V> =
+  {#internal : Internal__8484328<K, V>; #leaf : Leaf__809889148<K, V>};
+type PaymentStatus__1050999476 = {#failed; #pending; #refunded; #success};
+type Payment__149302498 =
+  {
+    amount : Nat;
+    date : Timestamp__301639476;
+    order_id : Text;
+    payment_id : Text;
+    plan : ?SubscriptionPlan__128119354;
+    status : PaymentStatus__1050999476;
+    user_id : Principal
+  };
+type PlanStatus__120990392 = {#free; #premium; #trial};
+type Session__71599859 = {created_at : Int; user_id : Principal};
+type SubscriptionPlan__128119354 = {#free; #premium};
+type Timestamp__301639476 = Int;
+type TransactionType__574348530 = {#deduction; #recharge; #reward};
+type UserActivity__129607357 =
+  {
+    daily_calories : ?Nat;
+    date : Timestamp__301639476;
+    meals_completed : ?Nat;
+    meals_skipped : ?Nat;
+    missed_meals : ?[MissedMealEntry__963936557];
+    protein_intake : ?Float;
+    total_protein : ?Float;
+    user_id : Principal;
+    water_intake : ?Float
+  };
+type UserFeedback__1031558607 =
+  {
+    created_at : Int;
+    date : Text;
+    energy_level : EnergyLevel__746749156;
+    feedback_text : Text;
+    health_status : Text;
+    id : Nat;
+    notes : Text;
+    user_id : Principal
+  };
+type User__98118558 =
+  {
+    var activity_level : ActivityLevel__893101734;
+    var age : Nat;
+    var balance : Float;
+    created_at : Timestamp__301639476;
+    var diet_type : DietType__908717894;
+    var dietary_preference : DietaryPreference__165841172;
+    var email : Text;
+    var goal : ?Goal__641104970;
+    var height : ?Float;
+    id : Principal;
+    var lifestyle_description : ?Text;
+    var name : Text;
+    var plan_status : PlanStatus__120990392;
+    var subscription_plan : SubscriptionPlan__128119354;
+    var trial_start_date : ?Timestamp__301639476;
+    var weight : ?Float
+  };
+type WaitlistEntry__155364746 =
+  {email : Text; timestamp : Timestamp__301639476};
+actor {
+  stable ONE_DAY_NS : Int;
+  stable activities :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?UserActivity__129607357]];
+      var elementIndex : Nat__490723111
+    };
+  stable activityStore :
+    {
+      var root : Node__46230540<Principal, UserActivity__129607357>;
+      var size : Nat__490723111
+    };
+  stable balanceTransactions :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?BalanceTransaction__767540482]];
+      var elementIndex : Nat__490723111
+    };
+  stable credentials :
+    {
+      var root : Node__46230540<Text, Credential__712013070>;
+      var size : Nat__490723111
+    };
+  stable dailyPlanStore :
+    {
+      var root : Node__46230540<Text, DailyJourney__913751691>;
+      var size : Nat__490723111
+    };
+  stable feedbackStore :
+    {
+      var root : Node__46230540<Text, UserFeedback__1031558607>;
+      var size : Nat__490723111
+    };
+  stable journeyProgressStore :
+    {
+      var root : Node__46230540<Text, JourneyProgress__161132083>;
+      var size : Nat__490723111
+    };
+  stable payments :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?Payment__149302498]];
+      var elementIndex : Nat__490723111
+    };
+  stable rateLimits :
+    {
+      var root : Node__46230540<Text, DailyRateLimit__437865141>;
+      var size : Nat__490723111
+    };
+  stable sessions :
+    {
+      var root : Node__46230540<Text, Session__71599859>;
+      var size : Nat__490723111
+    };
+  stable users :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?User__98118558]];
+      var elementIndex : Nat__490723111
+    };
+  stable waitlistEntries :
+    {
+      var root : Node__46230540<Text, WaitlistEntry__155364746>;
+      var size : Nat__490723111
+    }
+};
