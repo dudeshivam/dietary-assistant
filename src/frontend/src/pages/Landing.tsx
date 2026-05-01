@@ -1,6 +1,7 @@
 import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/Navbar";
 import { About } from "@/sections/About";
+import { FAQ } from "@/sections/FAQ";
 import { Features } from "@/sections/Features";
 import { Hero } from "@/sections/Hero";
 import { HowItWorks } from "@/sections/HowItWorks";
@@ -19,6 +20,7 @@ export function LandingPage() {
       <Testimonials />
       <Pricing />
       <About />
+      <FAQ />
       <WaitlistCTA />
       <Footer />
     </div>
